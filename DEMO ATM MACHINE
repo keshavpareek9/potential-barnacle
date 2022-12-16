@@ -1,0 +1,69 @@
+#include <stdio.h>
+
+int main()
+{
+    FILE *toRead = NULL, *toWrite = NULL;
+    toWrite = fopen("insert text file path", "w");
+    float x, y;
+    char ch, t;
+    printf("enter initial amount:");
+    scanf("%f", &x);
+tryagain:
+    printf("\nenter \n c for credit \n d for debit \n b for balance\n t for transaction history\n");
+    scanf("\n%c", &ch);
+    switch (ch)
+    {
+    case 'c':
+        printf("enter credit amount: \n");
+        scanf("%f", &y);
+        x = x + y;
+        printf("net amount=%.2f", x);
+        fprintf(toWrite, "credited: %.2f\n", y);
+        break;
+    case 'd':
+        printf("enter debit amount: \n");
+        scanf("%f", &y);
+        if (x >= y)
+        {
+            x = x - y;
+            printf("net amount=%.2f", x);
+            fprintf(toWrite, "debited: %.2f\n", y);
+        }
+        else
+            printf("insufficient amount=%.2f", x);
+        break;
+    case 'b':
+        printf("amount in account:%.2f", x);
+        break;
+    case 't':
+        fclose(toWrite);
+        toRead = fopen("insert text file path", "r");//location path of file 
+        if (fgetc(toRead) == EOF){
+            printf("no transaction history\n");
+            toWrite = fopen("insert text file path", "w");
+            break;
+        }
+        else
+        {
+            rewind(toRead);
+            while ((t = fgetc(toRead)) != EOF)
+                printf("%c", t);
+            fclose(toRead);
+            printf("Terminating session as transaction history can be viewed once per session.");
+            return 0;
+        }
+    default:
+        printf("choose correct option for operation");
+        goto tryagain;
+    }
+    printf("\ndo you want to continue?(y/n)\n");
+    scanf(" %c", &ch);
+    if (ch == 'y')
+        goto tryagain;
+    else if (ch == 'n')
+        printf("Thank you using our service!");
+    else
+        printf("Invalid input, hence terminating session.");
+    fclose(toWrite);
+    return 0;
+}
