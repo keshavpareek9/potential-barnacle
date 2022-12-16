@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+int check(int a1[3][3])//3*3 MATRIX
+{
+    int c;
+    c = -1;
+    if(a1[0][0]==a1[0][1]&&a1[0][1]==a1[0][2]&&a1[0][0]==a1[0][2])
+        c=a1[0][0];
+    else if(a1[0][0]==a1[1][1]&&a1[1][1]==a1[2][2]&&a1[0][0]==a1[2][2])
+        c=a1[0][0];
+    else if(a1[0][2]==a1[1][1]&&a1[1][1]==a1[2][0]&&a1[0][2]==a1[2][0])
+        c=a1[0][2];
+    else if(a1[1][0]==a1[1][1]&&a1[1][1]==a1[1][2]&&a1[1][0]==a1[1][2])
+        c=a1[1][0];
+    else if(a1[2][0]==a1[2][1]&&a1[2][1]==a1[2][2]&&a1[2][0]==a1[2][2])
+        c=a1[2][0];
+    else if(a1[0][0]==a1[1][0]&&a1[1][0]==a1[2][0]&&a1[0][0]==a1[2][0])
+        c=a1[0][0];
+    else if(a1[0][1]==a1[1][1]&&a1[1][1]==a1[2][1]&&a1[0][1]==a1[2][1])
+        c=a1[0][1];
+    else if(a1[0][2]==a1[1][2]&&a1[1][2]==a1[2][2]&&a1[0][2]==a1[2][2])
+        c=a1[0][2];
+    else
+        c=0;
+    return c;
+}
+void main() {
+    int m;
+    int n;
+    printf("Welcome to Tic-Tac-Toe\n\n");
+    printf("Enter 1 to Play\nEnter 2 to Quit\n");
+    scanf("%d", &m);
+    while (m == 1) {
+        int a[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++)
+                a[i][j] = 254;
+        }
+        printf("\n\n");
+        printf("Enter Corresponding Space co-ordinates\nPlayer 1 -> X     Player 2 -> 0\n");
+        printf("   0   1   2\n");
+        for (int i = 0; i < 3; i++) {
+            printf("%d  ", i);
+            for (int j = 0; j < 3; j++)
+                printf("%c   ", a[i][j]);
+            printf("\n");
+        }
+        int k;
+        for (k = 0; k < 9; k++) {
+            int p1, p2;
+            if (k % 2 == 0)
+                printf("Player 1 plays : ");
+            else
+                printf("Player 2 plays : ");
+            scanf("%d %d", &p1, &p2);
+            if (a[p1][p2] != 254) {
+                printf("Enter in a Blank Spot\n\n");
+                k--;
+                continue;
+            }
+            if (k % 2 == 0)
+                a[p1][p2] = 88;
+            else
+                a[p1][p2] = 79;
+            printf("\n\n");
+            printf("   0   1   2\n");
+            for (int i = 0; i < 3; i++) {
+                printf("%d  ", i);
+                for (int j = 0; j < 3; j++)
+                    printf("%c   ", a[i][j]);
+                printf("\n");
+            }
+            int c1 = check(a);
+            if (k >= 3) {
+                if (c1 == 88) {
+                    printf("Player 1 Wins\n\n");
+                    break;
+                } else if (c1 == 79) {
+                    printf("Player 2 Wins\n\n");
+                    break;
+                } else
+                    continue;
+            }
+        }
+        if (k == 9)
+            printf("Draw\n\n");
+        printf("Enter 1 if you want to continue playing\nEnter 2 if you want to quit\n");
+        int n1;
+        scanf("%d", &m);
+    }
+}
